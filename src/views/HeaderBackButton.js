@@ -14,6 +14,9 @@ import type { LayoutEvent, Style } from '../TypeDefinition';
 
 import TouchableItem from './TouchableItem';
 
+import BackIconSvg from './assets/back-icon.svg.js';
+
+
 type Props = {
   onPress?: () => void,
   pressColorAndroid?: ?string,
@@ -87,10 +90,16 @@ class HeaderBackButton extends React.PureComponent<DefaultProps, Props, State> {
         borderless
       >
         <View style={styles.container}>
-          <Image
-            style={[styles.icon, title && styles.iconWithTitle, { tintColor }]}
-            source={asset}
-          />
+          {Platform.OS !== 'web' &&
+            <Image
+              style={[styles.icon, title && styles.iconWithTitle, { tintColor }]}
+              source={asset}
+            />          }
+          {Platform.OS === 'web' &&
+            <BackIconSvg
+              style={StyleSheet.flatten([styles.icon, title && styles.iconWithTitle, { fill: tintColor }])}
+            />
+          }
           {Platform.OS === 'ios' &&
             title &&
             <Text
