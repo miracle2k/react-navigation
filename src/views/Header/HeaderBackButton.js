@@ -14,6 +14,9 @@ import type { LayoutEvent, TextStyleProp } from '../../TypeDefinition';
 
 import TouchableItem from '../TouchableItem';
 
+import BackIconSvg from './assets/back-icon.svg.js';
+
+
 type Props = {
   onPress?: () => void,
   pressColorAndroid?: string,
@@ -82,6 +85,7 @@ class HeaderBackButton extends React.PureComponent<Props, State> {
         borderless
       >
         <View style={styles.container}>
+          {Platform.OS !== 'web' &&
           <Image
             style={[
               styles.icon,
@@ -89,7 +93,12 @@ class HeaderBackButton extends React.PureComponent<Props, State> {
               !!tintColor && { tintColor },
             ]}
             source={asset}
-          />
+          />}
+          {Platform.OS === 'web' &&
+            <BackIconSvg
+              style={StyleSheet.flatten([styles.icon, title && styles.iconWithTitle, { fill: tintColor }])}
+            />
+          }
           {Platform.OS === 'ios' &&
             typeof backButtonTitle === 'string' && (
               <Text
